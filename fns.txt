@@ -1,0 +1,71 @@
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Tantalum \
+--peerAddresses localhost:7051 --tlsRootCertFiles $MININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:9051 --tlsRootCertFiles $REFININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:11051 --tlsRootCertFiles $MANUFACTURINGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:12051 --tlsRootCertFiles $CERTIFICATIONAUTHORITY_PEER_TLSROOTCERT \
+-c '{"function":"registerTantalumOre","Args":["oreId-01", "Congo", "500", "2024-11-03"]}'
+
+
+
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Tantalum \
+--peerAddresses localhost:7051 --tlsRootCertFiles $MININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:9051 --tlsRootCertFiles $REFININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:11051 --tlsRootCertFiles $MANUFACTURINGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:12051 --tlsRootCertFiles $CERTIFICATIONAUTHORITY_PEER_TLSROOTCERT \
+-c '{"function":"processOre","Args":["oreId-01", "refinedId-01", "99.9", "2024-11-03"]}'
+
+
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Tantalum \
+--peerAddresses localhost:7051 --tlsRootCertFiles $MININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:9051 --tlsRootCertFiles $REFININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:11051 --tlsRootCertFiles $MANUFACTURINGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:12051 --tlsRootCertFiles $CERTIFICATIONAUTHORITY_PEER_TLSROOTCERT \
+-c '{"function":"createComponent","Args":["componentId-01", "refinedId-01", "Tantalum Manufacturer", "2024-11-03"]}'
+
+
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Tantalum \
+--peerAddresses localhost:7051 --tlsRootCertFiles $MININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:9051 --tlsRootCertFiles $REFININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:11051 --tlsRootCertFiles $MANUFACTURINGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:12051 --tlsRootCertFiles $CERTIFICATIONAUTHORITY_PEER_TLSROOTCERT \
+-c '{"function":"updateComponent","Args":["componentId-01", "Updated Manufacturer", "2024-11-04"]}'
+
+
+
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Tantalum \
+--peerAddresses localhost:7051 --tlsRootCertFiles $MININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:9051 --tlsRootCertFiles $REFININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:11051 --tlsRootCertFiles $MANUFACTURINGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:12051 --tlsRootCertFiles $CERTIFICATIONAUTHORITY_PEER_TLSROOTCERT \
+-c '{"function":"deleteComponent","Args":["componentId-01"]}'
+
+
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Tantalum \
+--peerAddresses localhost:7051 --tlsRootCertFiles $MININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:9051 --tlsRootCertFiles $REFININGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:11051 --tlsRootCertFiles $MANUFACTURINGCOMPANY_PEER_TLSROOTCERT \
+--peerAddresses localhost:12051 --tlsRootCertFiles $CERTIFICATIONAUTHORITY_PEER_TLSROOTCERT \
+-c '{"function":"certifyEthicalSource","Args":["certificationId-01", "oreId-01", "Certifying Agency", "compliant", "2024-11-03"]}'
+
+
+
+peer chaincode query -C $CHANNEL_NAME -n Tantalum \
+-c '{"function":"queryByStatus","Args":["mined"]}'
+
+
+peer chaincode query -C $CHANNEL_NAME -n Tantalum \
+-c '{"function":"queryByOrigin","Args":["Congo"]}'
+
+
+
+peer chaincode query -C $CHANNEL_NAME -n Tantalum \
+-c '{"function":"getPrivateDetails","Args":["collectionManufacturingDetails", "componentId-01"]}'
+
+
+peer chaincode query -C $CHANNEL_NAME -n Tantalum \
+-c '{"function":"getOreHistory","Args":["oreId-01"]}'

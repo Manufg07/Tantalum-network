@@ -1,0 +1,179 @@
+Organizations:
+  - &OrdererOrg
+    Name: OrdererOrg
+    ID: OrdererMSP
+    MSPDir: ../organizations/ordererOrganizations/tantalum.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.admin')"
+    OrdererEndpoints:
+      - orderer.tantalum.com:7050
+
+  - &Miningcompany
+    Name: MiningCompanyMSP
+    ID: MiningCompanyMSP
+    MSPDir: ../organizations/peerOrganizations/miningcompany.tantalum.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('MiningCompanyMSP.admin', 'MiningCompanyMSP.peer', 'MiningCompanyMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('MiningCompanyMSP.admin', 'MiningCompanyMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('MiningCompanyMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('MiningCompanyMSP.peer')"
+
+  - &Refiningcompany
+    Name: RefiningCompanyMSP
+    ID: RefiningCompanyMSP
+    MSPDir: ../organizations/peerOrganizations/refiningcompany.tantalum.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('RefiningCompanyMSP.admin', 'RefiningCompanyMSP.peer', 'RefiningCompanyMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('RefiningCompanyMSP.admin', 'RefiningCompanyMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('RefiningCompanyMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('RefiningCompanyMSP.peer')"
+
+  - &Manufacturingcompany
+    Name: ManufacturingCompanyMSP
+    ID: ManufacturingCompanyMSP
+    MSPDir: ../organizations/peerOrganizations/manufacturingcompany.tantalum.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('ManufacturingCompanyMSP.admin', 'ManufacturingCompanyMSP.peer', 'ManufacturingCompanyMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('ManufacturingCompanyMSP.admin', 'ManufacturingCompanyMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('ManufacturingCompanyMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('ManufacturingCompanyMSP.peer')"
+
+  - &Certificationauthority
+    Name: CertificationAuthorityMSP
+    ID: CertificationAuthorityMSP
+    MSPDir: ../organizations/peerOrganizations/certificationauthority.tantalum.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('CertificationAuthorityMSP.admin', 'CertificationAuthorityMSP.peer', 'CertificationAuthorityMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('CertificationAuthorityMSP.admin', 'CertificationAuthorityMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('CertificationAuthorityMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('CertificationAuthorityMSP.peer')"
+        
+Capabilities:  
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_5: true
+    
+Application: &ApplicationDefaults
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+  Capabilities:
+    <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+  Addresses:
+    - orderer.tantalum.com:7050
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+Profiles:
+  FourOrgsChannel:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      OrdererType: etcdraft
+      EtcdRaft:
+        Consenters:
+          - Host: orderer.tantalum.com
+            Port: 7050
+            ClientTLSCert: ../organizations/ordererOrganizations/tantalum.com/orderers/orderer.tantalum.com/tls/server.crt
+            ServerTLSCert: ../organizations/ordererOrganizations/tantalum.com/orderers/orderer.tantalum.com/tls/server.crt
+      Organizations:
+        - *OrdererOrg
+      Capabilities: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Miningcompany
+        - *Refiningcompany
+        - *Manufacturingcompany
+        - *Certificationauthority
+      Capabilities: *ApplicationCapabilities

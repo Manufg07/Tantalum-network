@@ -110,7 +110,7 @@ export CC_PACKAGE_ID=$(peer lifecycle chaincode calculatepackageid tantalum.tar.
 
 echo "—---------------Approve chaincode in miningcompany peer—-------------"
 
-peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --channelID $CHANNEL_NAME --name Tantalum --version 1.0  --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
+peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --channelID $CHANNEL_NAME --name Tantalum --version 1.0 --collections-config ../Chaincode/Tantalum/collection-tantalum.json --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
 sleep 2
 
 # peer channel fetch config ${PWD}/channel-artifacts/config_block.pb -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
@@ -194,7 +194,7 @@ peer lifecycle chaincode queryinstalled
 
 echo "—---------------Approve chaincode in refiningcompany peer—-------------"
 
-peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --channelID $CHANNEL_NAME --name Tantalum --version 1.0  --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
+peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --channelID $CHANNEL_NAME --name Tantalum --version 1.0 --collections-config ../Chaincode/Tantalum/collection-tantalum.json --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
 sleep 1
 # peer channel fetch config ${PWD}/channel-artifacts/config_block.pb -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
 # cd channel-artifacts
@@ -281,7 +281,7 @@ peer lifecycle chaincode queryinstalled
 
 echo "—---------------Approve chaincode in manufacturingcompany peer—-------------"
 
-peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --channelID $CHANNEL_NAME --name Tantalum --version 1.0  --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
+peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --channelID $CHANNEL_NAME --name Tantalum --version 1.0 --collections-config ../Chaincode/Tantalum/collection-tantalum.json --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
 sleep 1
 # peer channel fetch config ${PWD}/channel-artifacts/config_block.pb -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
 # cd channel-artifacts
@@ -364,7 +364,7 @@ peer lifecycle chaincode queryinstalled
 
 echo "—---------------Approve chaincode in certificationauthority peer—-------------"
 
-peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --channelID $CHANNEL_NAME --name Tantalum --version 1.0  --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
+peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --channelID $CHANNEL_NAME --name Tantalum --version 1.0 --collections-config ../Chaincode/Tantalum/collection-tantalum.json --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
 sleep 1
 # peer channel fetch config ${PWD}/channel-artifacts/config_block.pb -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
 # cd channel-artifacts
@@ -404,9 +404,9 @@ sleep 1
 
 echo "—---------------Commit chaincode in manufacturingcompany peer—-------------"
 
-peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name Tantalum --version 1.0 --sequence 1  --tls --cafile $ORDERER_CA --output json
+peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name Tantalum --version 1.0 --sequence 1 --collections-config ../Chaincode/Tantalum/collection-tantalum.json --tls --cafile $ORDERER_CA --output json
 
-peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --channelID $CHANNEL_NAME --name Tantalum --version 1.0 --sequence 1  --tls --cafile $ORDERER_CA --peerAddresses localhost:7051 --tlsRootCertFiles $MININGCOMPANY_PEER_TLSROOTCERT --peerAddresses localhost:9051 --tlsRootCertFiles $REFININGCOMPANY_PEER_TLSROOTCERT --peerAddresses localhost:11051 --tlsRootCertFiles $MANUFACTURINGCOMPANY_PEER_TLSROOTCERT --peerAddresses localhost:12051 --tlsRootCertFiles $CERTIFICATIONAUTHORITY_PEER_TLSROOTCERT
+peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride orderer.tantalum.com --channelID $CHANNEL_NAME --name Tantalum --version 1.0 --sequence 1 --collections-config ../Chaincode/Tantalum/collection-tantalum.json --tls --cafile $ORDERER_CA --peerAddresses localhost:7051 --tlsRootCertFiles $MININGCOMPANY_PEER_TLSROOTCERT --peerAddresses localhost:9051 --tlsRootCertFiles $REFININGCOMPANY_PEER_TLSROOTCERT --peerAddresses localhost:11051 --tlsRootCertFiles $MANUFACTURINGCOMPANY_PEER_TLSROOTCERT --peerAddresses localhost:12051 --tlsRootCertFiles $CERTIFICATIONAUTHORITY_PEER_TLSROOTCERT
 sleep 1
 
 # echo "-------------Commit the chaincode-------------"
